@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.Optional;
 
 @Service
 @Getter
@@ -22,5 +23,8 @@ public class UsersService {
         usersRepository.save(user);
         return user;
 
+    }
+    public Optional<Users> getUserByEmail(String email) {
+        return usersRepository.findByEmail(email);
     }
 }
