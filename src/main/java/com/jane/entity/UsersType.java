@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class UsersType {
 
     @Id
@@ -20,7 +19,7 @@ public class UsersType {
 
     private String userTypeName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usersTypeId", targetEntity = Users.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userTypeId")
     private List<Users> users;
 
     @Override

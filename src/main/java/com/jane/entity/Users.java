@@ -12,7 +12,6 @@ import java.sql.Date;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 @ToString
 public class Users {
 
@@ -33,5 +32,5 @@ public class Users {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userTypeId", referencedColumnName = "userTypeId")
-    private UsersType usersType;
+    private UsersType userTypeId;
 }
