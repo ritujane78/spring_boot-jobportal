@@ -10,6 +10,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.catalina.User;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -23,10 +29,12 @@ public class UsersService {
     private final UsersRepository usersRepository;
     private final RecruiterProfileRepository recruiterProfileRepository;
     private final JobSeekerProfileRepository jobSeekerProfileRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Users saveUser(Users user) {
         user.setActive(true);
         user.setRegistrationDate(new Date(System.currentTimeMillis()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         Users savedUser = usersRepository.save(user);
         int userTypeId = user.getUserTypeId().getUserTypeId();
         if (userTypeId == 1) {
@@ -39,5 +47,25 @@ public class UsersService {
     }
     public Optional<Users> getUserByEmail(String email) {
         return usersRepository.findByEmail(email);
+    }
+
+    public Object getCurrentUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!(authentication instanceof AnonymousAuthenticationToken)) {
+            String username = authentication.getName();
+            Users user = usersRepository.findByEmail(username).orElseThrow(() -> new
+                    UsernameNotFoundException("User not found with email: " + username));
+            int userId = user.getUserId();
+            if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recruiter"))) {
+                RecruiterProfile recruiterProfile = recruiterProfileRepository.findById(userId)
+                        .orElseThrow(() -> new RuntimeException("Recruiter profile not found for user ID: " + userId));
+                return recruiterProfile;
+            }else {
+                JobSeekerProfile jobSeekerProfile = jobSeekerProfileRepository.findById(userId)
+                        .orElseThrow(() -> new RuntimeException("Job seeker profile not found for user ID: " + userId));
+                return jobSeekerProfile;
+            }
+        }
+            return null;
     }
 }
