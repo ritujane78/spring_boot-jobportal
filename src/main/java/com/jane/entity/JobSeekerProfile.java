@@ -16,7 +16,7 @@ import java.util.List;
 @ToString
 public class JobSeekerProfile {
     @Id
-    private int userAccountId;
+    private Integer userAccountId;
 
     @OneToOne
     @MapsId
@@ -32,11 +32,17 @@ public class JobSeekerProfile {
     private String employmentType;
     private String resume;
 
-    @OneToMany(targetEntity = Skills.class, cascade = CascadeType.ALL, mappedBy = "jobSeekerProfile")
-    List<Skills> skills;
+    @OneToMany(targetEntity = Skill.class, cascade = CascadeType.ALL, mappedBy = "jobSeekerProfile")
+    List<Skill> skills;
 
     @Column(nullable = true, length = 64)
     private String profilePhoto;
+
+    @Transient
+    public String getPhotosImagePath(){
+        if(profilePhoto == null || userAccountId == null)return null;
+        return "photos/candidate/" +userAccountId+"/"+profilePhoto;
+    }
 
     public JobSeekerProfile(Users userId) {
         this.userId = userId;
