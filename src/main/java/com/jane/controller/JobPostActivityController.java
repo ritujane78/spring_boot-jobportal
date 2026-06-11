@@ -1,6 +1,8 @@
 package com.jane.controller;
 
 import com.jane.entity.JobPostActivity;
+import com.jane.entity.RecruiterJobsDto;
+import com.jane.entity.RecruiterProfile;
 import com.jane.entity.Users;
 import com.jane.repository.UsersRepository;
 import com.jane.service.JobActivityService;
@@ -8,6 +10,7 @@ import com.jane.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Date;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,6 +34,10 @@ public class JobPostActivityController {
         if(!(authentication instanceof AnonymousAuthenticationToken)){
             String username = authentication.getName();
             model.addAttribute("username", username);
+            if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recruiter"))){
+                List<RecruiterJobsDto> recruiterJobs = jobActivityService.getRecruiterJobs(((RecruiterProfile) currentUserProfile).getUserAccountId());
+                model.addAttribute("jobPost", recruiterJobs);
+            }
         }
         model.addAttribute("user", currentUserProfile);
         return "dashboard";

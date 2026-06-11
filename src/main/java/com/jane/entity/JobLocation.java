@@ -15,13 +15,15 @@ import lombok.ToString;
 public class JobLocation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String city;
     private String state;
     private String country;
 
-
-    //TODO [Reverse Engineering] generate columns from DB
+    public JobLocation(int locationId, String city, String state, String country) {
+        this.city = city;
+        this.state = state;
+        this.country = country;
+    }
 }

@@ -15,11 +15,16 @@ import lombok.ToString;
 public class JobCompany {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
     private String logo;
+
+    public JobCompany(int companyId, String name, String s) {
+        this.id = companyId;
+        this.name = name;
+        this.logo = s;
+    }
 
     //TODO [Reverse Engineering] generate columns from DB
 }
