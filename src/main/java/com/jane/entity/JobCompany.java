@@ -15,6 +15,7 @@ import lombok.ToString;
 public class JobCompany {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

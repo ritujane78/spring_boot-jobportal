@@ -96,7 +96,7 @@ public class JobPostActivityController {
         if(!dateSearchFlag && !remote && !type && !StringUtils.hasText(job) && !StringUtils.hasText(location)) {
             jobPost = jobActivityService.getAll();
         }else{
-            jobPost = jobActivityService.seearch(job, location, Arrays.asList(partTime, fullTime, freelance),
+            jobPost = jobActivityService.search(job, location, Arrays.asList(partTime, fullTime, freelance),
                     Arrays.asList(remoteOnly, officeOnly, partialRemote), searchDate);
         }
         Object currentUserProfile = usersService.getCurrentUserProfile();

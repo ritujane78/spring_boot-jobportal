@@ -15,6 +15,7 @@ import lombok.ToString;
 public class JobLocation {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String city;
