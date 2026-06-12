@@ -5,9 +5,11 @@ import com.jane.repository.JobPostActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.chrono.JapaneseChronology;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +37,14 @@ public class JobActivityService {
     public JobPostActivity getOne(Integer id) {
         return jobPostActivityRepository.findById(id).orElseThrow(() -> new
                 RuntimeException("Job post activity not found with id: " + id));
+    }
+
+    public List<JobPostActivity> getAll() {
+        return jobPostActivityRepository.findAll();
+    }
+
+    public List<JobPostActivity> seearch(String job, String location, List<String> type, List<String> remote, LocalDate searchDate) {
+        return Objects.isNull(searchDate)? jobPostActivityRepository.searchWithoutDate(job, location, remote, type):
+        jobPostActivityRepository.search(job, location, remote, type, searchDate);
     }
 }
