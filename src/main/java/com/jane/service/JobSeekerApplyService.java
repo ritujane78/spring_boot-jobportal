@@ -23,7 +23,7 @@ public class JobSeekerApplyService {
     private final UsersRepository usersRepository;
 
     public List<JobSeekerApply> getCandidatesJobs(JobSeekerProfile userAccountId) {
-        return jobSeekerApplyRepository.findByJobSeekerProfileId(userAccountId);
+        return jobSeekerApplyRepository.findByUserId(userAccountId);
     }
 
     public List<JobSeekerApply> getjobCandidates(JobPostActivity job) {

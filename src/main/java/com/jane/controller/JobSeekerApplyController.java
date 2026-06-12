@@ -46,7 +46,7 @@ public class JobSeekerApplyController {
                         boolean exists = false;
                         boolean saved = false;
                         for(JobSeekerApply jobSeekerApply : jobSeekerApplyList){
-                            if(jobSeekerApply.getJobSeekerProfileId().getUserAccountId() == user.getUserAccountId()){
+                            if(jobSeekerApply.getUserId().getUserAccountId() == user.getUserAccountId()){
                                 exists = true;
                                 break;
                             }
@@ -92,7 +92,7 @@ public class JobSeekerApplyController {
             if(seekerProfile.isPresent() && jobPostActivity != null){
                 jobSeekerApply = new JobSeekerApply();
                 jobSeekerApply.setApplyDate(new Date(System.currentTimeMillis()));
-                jobSeekerApply.setJobSeekerProfileId(seekerProfile.get());
+                jobSeekerApply.setUserId(seekerProfile.get());
                 jobSeekerApply.setJob(jobPostActivity);
             }else {
                 throw new RuntimeException("User not found with email: " + username);

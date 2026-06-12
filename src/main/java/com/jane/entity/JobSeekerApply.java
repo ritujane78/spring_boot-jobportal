@@ -26,7 +26,7 @@ public class JobSeekerApply implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", referencedColumnName = "user_account_id")
-    private JobSeekerProfile jobSeekerProfileId;
+    private JobSeekerProfile userId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "job", referencedColumnName = "jobPostId")
