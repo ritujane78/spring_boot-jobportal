@@ -45,7 +45,7 @@ public class UsersController {
         }
 //        System.out.println(user);
         usersService.saveUser(user);
-        return "redirect:/dashboard/";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/login")
